@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&display=swap");
+body {
+  font-family: 'Quicksand', sans-serif;
+  background: #f5f5f2; }
+
+.weatherSpheres {
+  background: #fff;
+  margin-top: 1em;
+  padding: 2rem 0;
+  border-radius: 2rem;
+  border: 1px #555 solid; }
+
+.header {
+  background: #fff;
+  padding: 1.5em 1em;
+  margin-top: 1.5em;
+  border-radius: 1.5em;
+  border: 1px #555 solid; }
+  .header_location {
+    font-weight: 300;
+    font-family: inherit; }
+
+.header_location {
+  margin-bottom: 0;
+  width: 2em; }
+  .header_location_icon {
+    width: 2em;
+    display: inline-block; }
+
+.search {
+  position: relative;
+  width: 80%; }
+  .search_input {
+    width: 100%;
+    outline: none;
+    border-radius: 30px;
+    border: 1px #555555 solid;
+    padding: 0.6em 4em 0.6em 1.5em; }
+  .search_button {
+    position: absolute;
+    width: 3em;
+    right: 1.5em;
+    padding: 0.5em;
+    border: none;
+    background: transparent;
+    z-index: 20;
+    outline: none; }
+  .search_icon {
+    width: 100%; }
+
+/*# sourceMappingURL=main.css.map */
