@@ -9,17 +9,25 @@ import {
     resetSpheresArray,
     spheres
 } from "./core/spheres.js"
-import {API_KEY} from "../config.js";
+import {API_KEY_WEATHER} from "../config.js";
+import {SPHERE_SIZE, SPHERES_SPEED} from "./common/constants.js";
 
 const spheresArray = spheres
 
 const scene = new THREE.Scene()
-scene.background = new THREE.Color(0xffffff);
+scene.background = new THREE.Color(0xffffff)
+
+
+/** Date */
+const date = new Date().toString()
+const dateArray = date.split(" ",  4)
+dateArray.shift()
+const dateToDisplay = dateArray.join(" ")
+document.querySelector('#todayDate').innerText = dateToDisplay
 
 const spheresContainer = document.querySelector('#weatherSpheres')
 document.querySelector('#searchButton').addEventListener('click', (event) => {
     const location = document.querySelector('#locationSearch').value
-    console.log(location)
     getWeather(location).then(
         document.querySelector('#locationHeader').textContent = location
     )
@@ -36,15 +44,33 @@ document.querySelector('#locationSearch').addEventListener("keypress", (event) =
     }
 });
 
+/**
+ * Spinner
+ */
+const renderSpinner = function (parentElement) {
+    const markup = `
+        <div class="lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+    `;
+    parentElement.innerHTML = '';
+    parentElement.insertAdjacentHTML('afterbegin', markup);
+
+    // const weatherTable = document.querySelector('#weatherTable')
+    // weatherTable.innerHTML = ''
+    // weatherTable.insertAdjacentHTML('afterbegin', markup)
+};
+
 const getWeather = async function (location) {
     try {
-        //renderSpinner(recipeContainer);
+        renderSpinner(spheresContainer);
         const response = await fetch(
-            `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${location}&aqi=no`
+            `https://api.weatherapi.com/v1/current.json?key=${API_KEY_WEATHER}&q=${location}&aqi=no`
         );
         const data = await response.json();
         if (!response.ok) throw Error(`${data.message} (${response.status})`);
-
+        console.log(data);
 
         spheresContainer.innerHTML = ''
         resetSpheresArray(scene)
@@ -59,9 +85,6 @@ const getWeather = async function (location) {
         spheresArray.forEach(item => {
             scene.add(item.sphere)
         })
-
-        console.log(scene);
-        console.log(spheres);
     } catch (error) {
         alert(error);
     }
@@ -81,8 +104,6 @@ spheresArray.forEach(item => {
     scene.add(item.sphere)
 })
 
-
-
 /**
  * Animate
  */
@@ -92,7 +113,7 @@ function animate() {
     const elapsedTime = clock.getElapsedTime()
     requestAnimationFrame(animate)
     spheresArray.forEach(item => {
-        item.sphere.rotation.y = 0.15 * Math.sin(elapsedTime)
+        item.sphere.rotation.y = SPHERES_SPEED * Math.sin(elapsedTime)
     })
     render()
 }

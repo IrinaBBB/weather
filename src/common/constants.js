@@ -7,3 +7,6 @@ export const WEATHER_CONDITIONS = {
     SNOWY: 'Snowy',
     FOG: 'Fog',
 }
+
+export const SPHERE_SIZE = 140
+export const SPHERES_SPEED = 0.15

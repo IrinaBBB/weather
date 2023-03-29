@@ -1,5 +1,5 @@
 import * as THREE from "three"
-import {WEATHER_CONDITIONS} from "../common/constants.js"
+import {SPHERE_SIZE, WEATHER_CONDITIONS} from "../common/constants.js"
 
 const spheresData = {
     rainySphere: {iconUrl: 'img/rainy.svg', id: 'rainySphere', spherePosition: {y: 0}, cameraPosition: {y: 0, z: 2}},
@@ -213,7 +213,7 @@ function createSphere(sphereData, parentElement, sphereText) {
     const canvas = document.getElementById(sphereData.id)
 
     const renderer = new THREE.WebGLRenderer({canvas: canvas})
-    renderer.setSize(140, 140)
+    renderer.setSize(SPHERE_SIZE, SPHERE_SIZE)
 
     const geometry = new THREE.SphereGeometry(1.2, 50, 50)
     const sphere = new THREE.Mesh(geometry, new THREE.MeshStandardMaterial({

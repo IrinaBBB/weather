@@ -5,6 +5,11 @@ body {
     background: #f5f5f2;
 }
 
+.api-link {
+    margin-top: 1em;
+    text-align: right;
+}
+
 .weatherSpheres {
     background: #fff;
     margin-top: 1em;
@@ -16,7 +21,7 @@ body {
 .header {
     background: #fff;
     padding: 1.5em 1em;
-    margin-top: 1.5em;
+    margin-top: 1em;
     border-radius: 1.5em;
     border: 1px #555 solid;
     &_location {
@@ -34,13 +39,12 @@ body {
             display: inline-block;
         }
     }
-
-
 }
 
 .search {
     position: relative;
     width: 80%;
+    align-self: center;
     &_input {
         width: 100%;
         outline: none;
@@ -61,5 +65,55 @@ body {
     &_icon {
         width: 100%;
     }
-
 }
+
+
+// https://loading.io/css/
+.lds-ripple {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin: auto;
+}
+.lds-ripple div {
+    position: absolute;
+    border: 4px solid #555;
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+    0% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    4.9% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 0;
+    }
+    5% {
+        top: 36px;
+        left: 36px;
+        width: 0;
+        height: 0;
+        opacity: 1;
+    }
+    100% {
+        top: 0;
+        left: 0;
+        width: 72px;
+        height: 72px;
+        opacity: 0;
+    }
+}
+
