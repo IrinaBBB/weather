@@ -105,7 +105,7 @@ const getWeather = async function (location) {
 //     getWeather('Oslo').then()
 // });
 
-await getWeather('Bodø')
+getWeather('Bodø').then()
 
 async function updateLocation() {
     const location = document.querySelector('#locationSearch').value
