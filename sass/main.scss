@@ -76,6 +76,10 @@ body {
     }
 }
 
+#weatherSpheres {
+    margin-left: 2px;
+}
+
 
 .weatherRow {
     &:not(:last-child) {

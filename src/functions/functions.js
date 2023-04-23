@@ -70,3 +70,19 @@ export function getFormattedDate(date) {
 
     return formattedDate
 }
+
+export function removeNorwegianLetters(text) {
+    let newText = '';
+    newText = text.replaceAll('ø', 'o')
+    newText = newText.replaceAll('Ø', 'O')
+    newText = newText.replaceAll('æ', 'ae')
+    newText = newText.replaceAll('Æ', 'Ae')
+    newText = newText.replaceAll('å', 'aa')
+    newText = newText.replaceAll('Å', 'Aa')
+    return newText
+}
+
+export function containsNorwegianLetters(text) {
+    return !!(text.includes('Ø') || text.includes('ø') || text.includes('Å') || text.includes('å')
+        || text.includes('æ') || text.includes('Æ'));
+}

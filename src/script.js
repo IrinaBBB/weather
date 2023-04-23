@@ -11,18 +11,17 @@ import {
 } from "./core/spheres.js"
 import {API_KEY_WEATHER} from "../config.js";
 import {SPHERES_SPEED} from "./common/constants.js";
-import {getFormattedDate, populateFutureForecastTable} from "./functions/functions.js";
+import {
+    containsNorwegianLetters,
+    getFormattedDate,
+    populateFutureForecastTable,
+    removeNorwegianLetters
+} from "./functions/functions.js";
 
 const spheresArray = spheres
 
 const scene = new THREE.Scene()
 scene.background = new THREE.Color(0xffffff)
-
-
-/** Date */
-const date = new Date()
-const dateToDisplay = getFormattedDate(date)
-document.querySelector('#todayDate').innerText = dateToDisplay
 
 const spheresContainer = document.querySelector('#weatherSpheres')
 const weatherTableContainer = document.querySelector('#weatherTable')
@@ -56,19 +55,33 @@ const renderSpinner = function (parentElement) {
 };
 
 const getWeather = async function (location) {
+    //location = '67.28,14.40'
+    const locationNoNorwegianCharacters = removeNorwegianLetters(location)
+    console.log(containsNorwegianLetters(location));
+
     try {
+        /** Date */
+        const date = new Date()
+        document.querySelector('#todayDate').innerText = getFormattedDate(date)
         renderSpinner(spheresContainer);
         const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY_WEATHER}&q=${location}&days=3`
+            `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY_WEATHER}&q=${locationNoNorwegianCharacters}&days=3`
         );
         const data = await response.json();
         if (!response.ok) throw Error(`${data.message} (${response.status})`);
         console.log(data);
 
+        if (containsNorwegianLetters(location)) {
+            console.log('contains');
+            document.querySelector('#headerText').textContent = location
+        } else {
+            document.querySelector('#headerText').textContent = data.location.name
+        }
         spheresContainer.innerHTML = ''
         weatherTableContainer.innerHTML = ''
         resetSpheresArray(scene)
         populateFutureForecastTable(data.forecast.forecastday, weatherTableContainer)
+        document.querySelector('#locationSearch').value = ''
 
         const text = data.current.condition.text;
         const type = getConditionString(data.current.condition.text)
@@ -85,14 +98,17 @@ const getWeather = async function (location) {
     }
 };
 
-await getWeather('Bodo')
+// navigator.geolocation.getCurrentPosition((position) => {
+//     getWeather(`${position.coords.latitude},${position.coords.longitude}`).then()
+// }, () => {
+//     getWeather('Oslo').then()
+// });
+
+await getWeather('Bodø')
 
 async function updateLocation() {
     const location = document.querySelector('#locationSearch').value
-    getWeather(location).then(
-        document.querySelector('#headerText').textContent = location
-    )
-    document.querySelector('#locationSearch').value = ''
+    getWeather(location).then()
 }
 
 /**

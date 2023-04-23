@@ -55,6 +55,9 @@ body {
   .search_icon {
     width: 100%; }
 
+#weatherSpheres {
+  margin-left: 2px; }
+
 .weatherRow:not(:last-child) {
   border-bottom: 1px solid #aaa;
   padding-bottom: 1em; }
