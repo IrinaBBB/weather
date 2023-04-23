@@ -10,8 +10,8 @@ import {
     spheres
 } from "./core/spheres.js"
 import {API_KEY_WEATHER} from "../config.js";
-import {SPHERE_SIZE, SPHERES_SPEED} from "./common/constants.js";
-import {populateFutureForecastTable} from "./functions/functions.js";
+import {SPHERES_SPEED} from "./common/constants.js";
+import {getFormattedDate, populateFutureForecastTable} from "./functions/functions.js";
 
 const spheresArray = spheres
 
@@ -20,29 +20,20 @@ scene.background = new THREE.Color(0xffffff)
 
 
 /** Date */
-const date = new Date().toString()
-const dateArray = date.split(" ",  4)
-dateArray.shift()
-const dateToDisplay = dateArray.join(" ")
+const date = new Date()
+const dateToDisplay = getFormattedDate(date)
 document.querySelector('#todayDate').innerText = dateToDisplay
 
 const spheresContainer = document.querySelector('#weatherSpheres')
 const weatherTableContainer = document.querySelector('#weatherTable')
+
 document.querySelector('#searchButton').addEventListener('click', (event) => {
-    const location = document.querySelector('#locationSearch').value
-    getWeather(location).then(
-        document.querySelector('#locationHeader').textContent = location
-    )
+    updateLocation().then()
 })
 
 document.querySelector('#locationSearch').addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
-        const location = document.querySelector('#locationSearch').value
-        console.log(location)
-        getWeather(location).then(
-            document.querySelector('#headerText').textContent = location
-        )
-        document.querySelector('#locationSearch').value = ''
+        updateLocation().then()
     }
 });
 
@@ -59,9 +50,9 @@ const renderSpinner = function (parentElement) {
     parentElement.innerHTML = '';
     parentElement.insertAdjacentHTML('afterbegin', markup);
 
-    // const weatherTable = document.querySelector('#weatherTable')
-    // weatherTable.innerHTML = ''
-    // weatherTable.insertAdjacentHTML('afterbegin', markup)
+    const weatherTable = document.querySelector('#weatherTable')
+    weatherTable.innerHTML = ''
+    weatherTable.insertAdjacentHTML('afterbegin', markup)
 };
 
 const getWeather = async function (location) {
@@ -75,7 +66,7 @@ const getWeather = async function (location) {
         console.log(data);
 
         spheresContainer.innerHTML = ''
-        //weatherTableContainer.innerHTML = ''
+        weatherTableContainer.innerHTML = ''
         resetSpheresArray(scene)
         populateFutureForecastTable(data.forecast.forecastday, weatherTableContainer)
 
@@ -95,6 +86,14 @@ const getWeather = async function (location) {
 };
 
 await getWeather('Bodo')
+
+async function updateLocation() {
+    const location = document.querySelector('#locationSearch').value
+    getWeather(location).then(
+        document.querySelector('#headerText').textContent = location
+    )
+    document.querySelector('#locationSearch').value = ''
+}
 
 /**
  * Lights

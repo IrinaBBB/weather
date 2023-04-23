@@ -132,7 +132,7 @@ export function getTemperatureSphere(temperatureValue, parentElement) {
     } else if (temperatureValue <= -1) {
         addColdTemperatureSphere(parentElement, `${temperatureValue}&#176;`)
     } else {
-        addZeroTemperatureSphere(parentElement, `${temperatureValue}&#176;`)
+        addZeroTemperatureSphere(parentElement, `0&#176;`)
     }
 }
 
