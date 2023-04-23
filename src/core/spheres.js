@@ -203,7 +203,7 @@ function createSphere(sphereData, parentElement, sphereText) {
     const htmlMarkup = `
         <div class="col d-flex flex-column align-items-center">
             <canvas id="${sphereData.id}"></canvas>
-            <h3 class="text-secondary">${sphereText}</h3>
+            <h3 class="text-secondary text-center">${sphereText}</h3>
         </div>
     `;
     parentElement.insertAdjacentHTML('beforeend', htmlMarkup)

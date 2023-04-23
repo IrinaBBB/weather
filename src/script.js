@@ -11,6 +11,7 @@ import {
 } from "./core/spheres.js"
 import {API_KEY_WEATHER} from "../config.js";
 import {SPHERE_SIZE, SPHERES_SPEED} from "./common/constants.js";
+import {populateFutureForecastTable} from "./functions/functions.js";
 
 const spheresArray = spheres
 
@@ -26,6 +27,7 @@ const dateToDisplay = dateArray.join(" ")
 document.querySelector('#todayDate').innerText = dateToDisplay
 
 const spheresContainer = document.querySelector('#weatherSpheres')
+const weatherTableContainer = document.querySelector('#weatherTable')
 document.querySelector('#searchButton').addEventListener('click', (event) => {
     const location = document.querySelector('#locationSearch').value
     getWeather(location).then(
@@ -66,14 +68,16 @@ const getWeather = async function (location) {
     try {
         renderSpinner(spheresContainer);
         const response = await fetch(
-            `https://api.weatherapi.com/v1/current.json?key=${API_KEY_WEATHER}&q=${location}&aqi=no`
+            `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY_WEATHER}&q=${location}&days=3`
         );
         const data = await response.json();
         if (!response.ok) throw Error(`${data.message} (${response.status})`);
         console.log(data);
 
         spheresContainer.innerHTML = ''
+        //weatherTableContainer.innerHTML = ''
         resetSpheresArray(scene)
+        populateFutureForecastTable(data.forecast.forecastday, weatherTableContainer)
 
         const text = data.current.condition.text;
         const type = getConditionString(data.current.condition.text)
@@ -90,7 +94,7 @@ const getWeather = async function (location) {
     }
 };
 
-await getWeather('Tromso')
+await getWeather('Bodo')
 
 /**
  * Lights
