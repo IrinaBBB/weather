@@ -55,9 +55,7 @@ const renderSpinner = function (parentElement) {
 };
 
 const getWeather = async function (location) {
-    //location = '67.28,14.40'
     const locationNoNorwegianCharacters = removeNorwegianLetters(location)
-    console.log(containsNorwegianLetters(location));
 
     try {
         /** Date */
@@ -67,13 +65,10 @@ const getWeather = async function (location) {
         const response = await fetch(
             `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY_WEATHER}&q=${locationNoNorwegianCharacters}&days=3`
         );
-        console.log(`https://api.weatherapi.com/v1/forecast.json?key=${API_KEY_WEATHER}&q=${locationNoNorwegianCharacters}&days=3`);
         const data = await response.json();
         if (!response.ok) throw Error(`${data.message} (${response.status})`);
-        console.log(data);
 
         if (containsNorwegianLetters(location)) {
-            console.log('contains');
             document.querySelector('#headerText').textContent = location
         } else {
             document.querySelector('#headerText').textContent = `${data.location.name}, ${data.location.region}`
