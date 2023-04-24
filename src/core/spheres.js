@@ -128,9 +128,9 @@ export function getConditionSphere(condition, conditionText, parentElement) {
 
 export function getTemperatureSphere(temperatureValue, parentElement) {
     if (temperatureValue >= 1) {
-        addHotTemperatureSphere(parentElement, `+${temperatureValue}&#176;`)
+        addHotTemperatureSphere(parentElement, `+${Math.round(temperatureValue)}&#176;`)
     } else if (temperatureValue <= -1) {
-        addColdTemperatureSphere(parentElement, `${temperatureValue}&#176;`)
+        addColdTemperatureSphere(parentElement, `${Math.round(temperatureValue)}&#176;`)
     } else {
         addZeroTemperatureSphere(parentElement, `0&#176;`)
     }
