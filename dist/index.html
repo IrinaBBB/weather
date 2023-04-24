@@ -38,10 +38,6 @@
     </div>
     <div id="weatherTable" class="weatherContainer forecast row mb-5"></div>
 </div>
-
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu2GSsPqjta6gKH9S77oNZ_yZ9-el1cT0&libraries=places&callback=initAutocomplete">
-</script>
 <script>
     function initAutocomplete() {
         const input = document.getElementById("locationSearch");
@@ -50,6 +46,10 @@
         autocomplete.setFields(["place_id", "geometry", "name"]);
     }
 </script>
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu2GSsPqjta6gKH9S77oNZ_yZ9-el1cT0&libraries=places&callback=initAutocomplete">
+</script>
+
 
 </body>
 </html>
