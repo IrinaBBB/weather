@@ -140,3 +140,6 @@ function render() {
 }
 
 animate()
+
+
+// https://api.geoapify.com/v1/geocode/autocomplete?text=Mosco&apiKey=e2119e7d3055441eb5f03b8918a4560c

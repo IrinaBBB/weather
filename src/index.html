@@ -28,6 +28,26 @@
             <button id="searchButton" class="search_button" type="button">
                 <img class="search_icon" src="/icons/search.svg" alt="search"/>
             </button>
+            <div class="autocomplete" id="autocomplete">
+                <div class="autocomplete__item">
+                    <span class="header_icon">
+                        <img style="width: 0.9em; margin-top: -3px;" src="/icons/pin.svg" alt="location">
+                    </span>
+                    <span>Moscow, Russia</span>
+                </div>
+                <div class="autocomplete__item">
+                    <span class="header_icon">
+                        <img style="width: 0.9em; margin-top: -3px;" src="/icons/pin.svg" alt="location">
+                    </span>
+                    <span>Oslo, Norway</span>
+                </div>
+                <div class="autocomplete__item">
+                    <span class="header_icon">
+                        <img style="width: 0.9em; margin-top: -3px;" src="/icons/pin.svg" alt="location">
+                    </span>
+                    <span>Bodø, Norway</span>
+                </div>
+            </div>
         </div>
     </div>
     <div class="weatherContainer row">
@@ -36,17 +56,17 @@
     </div>
     <div id="weatherTable" class="weatherContainer forecast row mb-5"></div>
 </div>
-<script>
-    function initAutocomplete() {
-        const input = document.getElementById("locationSearch");
-        const options = {};
-        const autocomplete = new google.maps.places.Autocomplete(input, options);
-        autocomplete.setFields(["place_id", "geometry", "name"]);
-    }
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu2GSsPqjta6gKH9S77oNZ_yZ9-el1cT0&libraries=places&callback=initAutocomplete">
-</script>
+<!--<script>-->
+<!--    function initAutocomplete() {-->
+<!--        const input = document.getElementById("locationSearch");-->
+<!--        const options = {};-->
+<!--        const autocomplete = new google.maps.places.Autocomplete(input, options);-->
+<!--        autocomplete.setFields(["place_id", "geometry", "name"]);-->
+<!--    }-->
+<!--</script>-->
+<!--<script async defer-->
+<!--        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCu2GSsPqjta6gKH9S77oNZ_yZ9-el1cT0&libraries=places&callback=initAutocomplete">-->
+<!--</script>-->
 
 <script type="module" src="./script.js"></script>
 </body>

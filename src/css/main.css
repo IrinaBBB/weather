@@ -116,5 +116,22 @@ body {
     width: 72px;
     height: 72px;
     opacity: 0; } }
+.autocomplete {
+  position: absolute;
+  background: white;
+  margin-top: 1rem;
+  border: 1px #555 solid;
+  border-radius: 2rem;
+  padding: 1rem 2rem;
+  width: 97%; }
+  .autocomplete__item {
+    padding: .5rem 0 .5rem 5px;
+    text-transform: uppercase;
+    transition: .3s;
+    color: #777; }
+    .autocomplete__item:not(:last-child) {
+      border-bottom: 1px #777 solid; }
+    .autocomplete__item:hover {
+      background: #efefef; }
 
 /*# sourceMappingURL=main.css.map */
