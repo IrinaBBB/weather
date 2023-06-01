@@ -133,6 +133,7 @@ body {
     .autocomplete__item:not(:last-child) {
       border-bottom: 1px #777 solid; }
     .autocomplete__item:hover {
-      background: #efefef; }
+      background: #efefef;
+      cursor: pointer; }
 
 /*# sourceMappingURL=main.css.map */
