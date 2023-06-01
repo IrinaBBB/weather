@@ -26,15 +26,45 @@ scene.background = new THREE.Color(0xffffff)
 const spheresContainer = document.querySelector('#weatherSpheres')
 const weatherTableContainer = document.querySelector('#weatherTable')
 
+
 document.querySelector('#searchButton').addEventListener('click', (event) => {
+    document.querySelector('#autocomplete').style.display = 'none';
     updateLocation().then()
 })
 
-document.querySelector('#locationSearch').addEventListener("keypress", (event) => {
+document.querySelector('#locationSearch').addEventListener('keypress', (event) => {
     if (event.key === "Enter") {
+        document.querySelector('#autocomplete').style.display = 'none';
         updateLocation().then()
     }
 });
+
+/**
+ * Autocomplete
+ */
+let autocompleteList = [];
+document.querySelector('#locationSearch').addEventListener('keyup', (event) => {
+    if (event.key !== "Enter") {
+        document.querySelector('#autocomplete').style.display = 'block';
+    }
+});
+
+document.querySelectorAll('.autocomplete__item').forEach((item) => {
+    item.addEventListener('click', (event) => {
+        document.querySelector('#locationSearch').value = item.innerText;
+    });
+});
+
+const populateAutocompleteList = async function (value) {
+    const response = await fetch(
+        `https://api.geoapify.com/v1/geocode/autocomplete?text=${value}&apiKey=e2119e7d3055441eb5f03b8918a4560c`
+    );
+    const data = await response.json();
+    console.log(data.features);
+}
+
+await populateAutocompleteList('bod');
+
 
 /**
  * Spinner
@@ -94,11 +124,6 @@ const getWeather = async function (location) {
     }
 };
 
-// navigator.geolocation.getCurrentPosition((position) => {
-//     getWeather(`${position.coords.latitude},${position.coords.longitude}`).then()
-// }, () => {
-//     getWeather('Oslo').then()
-// });
 
 await getWeather('Bodø')
 

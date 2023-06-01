@@ -117,6 +117,7 @@ body {
     height: 72px;
     opacity: 0; } }
 .autocomplete {
+  display: none;
   position: absolute;
   background: white;
   margin-top: 1rem;
