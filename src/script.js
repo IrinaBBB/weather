@@ -25,6 +25,8 @@ scene.background = new THREE.Color(0xffffff)
 
 const spheresContainer = document.querySelector('#weatherSpheres')
 const weatherTableContainer = document.querySelector('#weatherTable')
+const headerText = document.querySelector('#headerText');
+
 
 
 document.querySelector('#searchButton').addEventListener('click', (event) => {
@@ -43,27 +45,64 @@ document.querySelector('#locationSearch').addEventListener('keypress', (event) =
  * Autocomplete
  */
 let autocompleteList = [];
-document.querySelector('#locationSearch').addEventListener('keyup', (event) => {
-    if (event.key !== "Enter") {
-        document.querySelector('#autocomplete').style.display = 'block';
-    }
-});
-
+const locationSearchInput = document.querySelector('#locationSearch');
+const autocompleteWindow = document.querySelector('#autocomplete');
 document.querySelectorAll('.autocomplete__item').forEach((item) => {
     item.addEventListener('click', (event) => {
         document.querySelector('#locationSearch').value = item.innerText;
     });
 });
 
-const populateAutocompleteList = async function (value) {
-    const response = await fetch(
-        `https://api.geoapify.com/v1/geocode/autocomplete?text=${value}&apiKey=e2119e7d3055441eb5f03b8918a4560c`
-    );
-    const data = await response.json();
-    console.log(data.features);
-}
+locationSearchInput.addEventListener('keyup', (event) => {
+    autocompleteList = [];
+    autocompleteWindow.innerHTML = '';
+    populateAutocompleteList(locationSearchInput.value).then(() => {
+        if (autocompleteList.length > 0) {
+            autocompleteWindow.style.display = 'block';
+            autocompleteList.forEach((item) => {
+                const markup = `
+                    <div class="autocomplete__item">
+                        <span class="header_icon">
+                            <img style="width: 0.9em; margin-top: -3px;" src="/icons/pin.svg" alt="location">
+                        </span>
+                        <span class="autocomplete__text">${item}</span>
+                    </div>
+                `;
+                document.querySelector('#autocomplete').insertAdjacentHTML('afterbegin', markup);
+            });
+            document.querySelectorAll('.autocomplete__text').forEach((item) => {
+                const fieldText = item.innerText;
+                item.addEventListener('click', (item) => {
+                    locationSearchInput.value = fieldText;
+                    getWeather(fieldText).then();
+                    autocompleteWindow.style.display = 'none';
+                });
+            });
+        } else {
+            document.querySelector('#autocomplete').style.display = 'none';
+        }
+    });
+});
 
-await populateAutocompleteList('bod');
+
+const populateAutocompleteList = async function (value) {
+    console.log('Value: ' + value);
+    autocompleteList = [];
+    if (value !== '') {
+        const response = await fetch(
+            `https://api.geoapify.com/v1/geocode/autocomplete?text=${value}&apiKey=e2119e7d3055441eb5f03b8918a4560c`
+        );
+        const data = await response.json();
+        console.log(data);
+        if (data.features.length !== undefined) {
+            data.features.forEach((item) => {
+                if (item.properties.name !== undefined && item.properties.country !== undefined) {
+                    autocompleteList.push(`${item.properties.name}, ${item.properties.country}`);
+                }
+            });
+        }
+    }
+}
 
 
 /**
@@ -79,9 +118,12 @@ const renderSpinner = function (parentElement) {
     parentElement.innerHTML = '';
     parentElement.insertAdjacentHTML('afterbegin', markup);
 
-    const weatherTable = document.querySelector('#weatherTable')
-    weatherTable.innerHTML = ''
-    weatherTable.insertAdjacentHTML('afterbegin', markup)
+    const weatherTable = document.querySelector('#weatherTable');
+    weatherTable.innerHTML = '';
+    weatherTable.insertAdjacentHTML('afterbegin', markup);
+
+    headerText.innerHTML = '';
+    headerText.insertAdjacentHTML('afterbegin', markup);
 };
 
 const getWeather = async function (location) {
@@ -103,8 +145,9 @@ const getWeather = async function (location) {
         } else {
             document.querySelector('#headerText').textContent = `${data.location.name}, ${data.location.region}`
         }
-        spheresContainer.innerHTML = ''
-        weatherTableContainer.innerHTML = ''
+        spheresContainer.innerHTML = '';
+        weatherTableContainer.innerHTML = '';
+
         resetSpheresArray(scene)
         populateFutureForecastTable(data.forecast.forecastday, weatherTableContainer)
         document.querySelector('#locationSearch').value = ''
@@ -123,7 +166,6 @@ const getWeather = async function (location) {
         alert(error);
     }
 };
-
 
 await getWeather('Bodø')
 
@@ -166,5 +208,3 @@ function render() {
 
 animate()
 
-
-// https://api.geoapify.com/v1/geocode/autocomplete?text=Mosco&apiKey=e2119e7d3055441eb5f03b8918a4560c
